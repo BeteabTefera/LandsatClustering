@@ -11,12 +11,13 @@ import matplotlib.pyplot as plt
 
 class ClusteredBands:
 
-    def __init__(self, rasters_list):
+    def __init__(self, rasters_list, scenename):
         self.rasters = rasters_list
         self.model_input = None
         self.width = 0
         self.height = 0
         self.depth = 0
+        self.scene_name = scenename
         self.no_of_ranges = None
         self.models = None
         self.predicted_rasters = None
@@ -58,7 +59,7 @@ class ClusteredBands:
 
             # Append output image (classified)
             quantized_raster = np.reshape(y_pred, (self.width, self.height))
-            plt.imsave('LC08_L1GT_027029_20130730_20200912_02_T2.png', quantized_raster,cmap='terrain')
+            plt.imsave(self.scene_name+'.png', quantized_raster,cmap='terrain')
             plt.rcParams.update(plt.rcParamsDefault)
             plt.close()
             predicted.append(quantized_raster)
