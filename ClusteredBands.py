@@ -22,6 +22,7 @@ class ClusteredBands:
         self.predicted_rasters = None
         self.s_scores = []
         self.inertia_scores = []
+        self.bands_stack = []
 
     def set_raster_stack(self):
         band_list = []
@@ -42,7 +43,9 @@ class ClusteredBands:
         predicted = []
         inertia_vals = []
         s_scores = []
+        y_pred = []
         for n_clust in no_of_clusters_range:
+            quantized_raster = []
             kmeans = KMeans(n_clusters=n_clust)
             y_pred = kmeans.fit_predict(self.model_input)
 
@@ -55,6 +58,9 @@ class ClusteredBands:
 
             # Append output image (classified)
             quantized_raster = np.reshape(y_pred, (self.width, self.height))
+            plt.imsave('LC08_L1GT_027029_20130730_20200912_02_T2.png', quantized_raster,cmap='terrain')
+            plt.rcParams.update(plt.rcParamsDefault)
+            plt.close()
             predicted.append(quantized_raster)
 
         # Update class parameters
